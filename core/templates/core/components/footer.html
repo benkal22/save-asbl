@@ -1,0 +1,80 @@
+{% load static %}
+
+<footer class="bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700">
+    <div class="mx-auto w-full max-w-screen-xl p-6">
+        <div class="md:flex md:justify-between">
+            <!-- Section des liens rapides -->
+            <div class="mb-6 md:mb-0">
+                <h2 class="mb-6 text-sm font-semibold uppercase text-gray-900 dark:text-white">Liens rapides</h2>
+                <ul class="text-gray-500 dark:text-gray-400 font-medium">
+                    <li class="mb-4">
+                        <a href="{% url 'index' %}" class="hover:underline">Accueil</a>
+                    </li>
+                    <li class="mb-4">
+                        <a href="{% url 'about' %}" class="hover:underline">À propos</a>
+                    </li>
+                    <li class="mb-4">
+                        <a href="{% url 'projects' %}" class="hover:underline">Projets</a>
+                    </li>
+                    <li class="mb-4">
+                        <a href="{% url 'contact' %}" class="hover:underline">Contact</a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Section des informations de contact -->
+            <div class="mb-6 md:mb-0">
+                <h2 class="mb-6 text-sm font-semibold uppercase text-gray-900 dark:text-white">Contact</h2>
+                <ul class="text-gray-500 dark:text-gray-400 font-medium">
+                    <li class="mb-4">
+                        <p>Email: <a href="mailto:info@saveasbl.be" class="hover:underline">info@saveasbl.be</a></p>
+                    </li>
+                    <li class="mb-4">
+                        <p>Téléphone: <a href="tel:+32123456789" class="hover:underline">+243 810 078 256</a></p>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Section de l'adresse -->
+            <div class="mb-6 md:mb-0">
+                <h2 class="mb-6 text-sm font-semibold uppercase text-gray-900 dark:text-white">Adresse</h2>
+                <ul class="text-gray-500 dark:text-gray-400 font-medium">
+                    <li class="mb-4">
+                        <p>SAVE ASBL</p>
+                        <p>n° 9, Avenue Kimpe</p>
+                        <p>Commune de Ngaliema</p>
+                        <p>Kinshasa, République Démocratique du Congo</p>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Section des réseaux sociaux -->
+            <div>
+                <h2 class="mb-6 text-sm font-semibold uppercase text-gray-900 dark:text-white">Suivez-nous</h2>
+                <ul class="text-gray-500 dark:text-gray-400 font-medium">
+                    <li class="mb-4">
+                        <a href="https://facebook.com" class="hover:underline">Facebook</a>
+                    </li>
+                    <li class="mb-4">
+                        <a href="https://twitter.com" class="hover:underline">Twitter</a>
+                    </li>
+                    <li class="mb-4">
+                        <a href="https://instagram.com" class="hover:underline">Instagram</a>
+                    </li>
+                    <li class="mb-4">
+                        <a href="https://linkedin.com" class="hover:underline">LinkedIn</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Section du copyright -->
+        <hr class="my-6 border-gray-200 dark:border-gray-700 sm:mx-auto lg:my-8" />
+        <div class="text-center">
+            <span class="text-sm text-gray-500 dark:text-gray-400 sm:text-center">
+                © 2025 <a href="{% url 'index' %}" class="hover:underline">SAVE ASBL</a>. Tous droits réservés.<br>
+                Siège social : n° 9, Avenue Kimpe, Commune de Ngaliema, Kinshasa, République Démocratique du Congo.
+            </span>
+        </div>
+    </div>
+</footer>

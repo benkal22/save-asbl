@@ -1,0 +1,8 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+/* @plugin "daisyui"; */
+@plugin "flowbite/plugin";
+@import "flowbite/src/themes/default";
+@source "../node_modules/flowbite";
+@custom-variant dark (&:where(.dark, .dark *));

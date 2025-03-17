@@ -1,33 +1,36 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SAVE ASBL</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-</head>
-<body class="bg-gray-100">
-    <header class="bg-blue-900 text-white p-4">
-        <div class="container mx-auto">
-            <h1 class="text-2xl font-bold">SAVE ASBL</h1>
-            <nav>
-                <a href="{% url 'index' %}" class="mr-4">Accueil</a>
-                <a href="#" class="mr-4">À propos</a>
-                <a href="#" class="mr-4">Projets</a>
-                <a href="#" class="mr-4">Contact</a>
-            </nav>
-        </div>
-    </header>
+    <link href="{% static 'core/css/tailwind.css' %}" rel="stylesheet">
 
+    <script>
+        // Vérifie la préférence du thème lors du chargement
+        if (localStorage.getItem('color-theme') === 'dark' || 
+            (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    </script>
+</head>
+<body class="bg-white dark:bg-gray-900 text-gray-900 dark:text-white">
+    {% include 'core/components/navbar.html' %}    
+   
     <main class="container mx-auto p-4">
         {% block content %}
+        
         {% endblock %}
+        
     </main>
 
-    <footer class="bg-blue-900 text-white p-4 mt-8">
-        <div class="container mx-auto text-center">
-            <p>&copy; 2023 SAVE ASBL. Tous droits réservés.</p>
-        </div>
-    </footer>
+    {% include 'core/components/footer.html' %}    
+    
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
+ 
 </body>
 </html>
