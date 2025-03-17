@@ -5,8 +5,18 @@ module.exports = {
     "./core/templates/**/*.html",
   ],
   theme: {
-    extend: {},
+    extend: {
+      maxHeight: {
+        '0': '0',
+        xl: '36rem',
+      },
+      fontFamily: {
+        sans: ['Inter', ...defaultTheme.fontFamily.sans],
+      },
+    },
   },
-  plugins: [require("daisyui")],
+  plugins: [
+    // require("daisyui")
+  ],
 }
 

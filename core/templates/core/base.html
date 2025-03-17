@@ -6,8 +6,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SAVE ASBL</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
     <link href="{% static 'core/css/tailwind.css' %}" rel="stylesheet">
-
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script>
         // Vérifie la préférence du thème lors du chargement
         if (localStorage.getItem('color-theme') === 'dark' || 
@@ -19,18 +22,74 @@
     </script>
 </head>
 <body class="bg-white dark:bg-gray-900 text-gray-900 dark:text-white">
-    {% include 'core/components/navbar.html' %}    
-   
+    <!-- Spinner -->
+    {% include 'core/components/spinner.html' %}
+
+    <!-- Navbar -->
+    {% include 'core/components/navbar.html' %}
+
+    <!-- Contenu principal -->
     <main class="container mx-auto p-4">
         {% block content %}
-        
         {% endblock %}
-        
     </main>
 
-    {% include 'core/components/footer.html' %}    
-    
+    <!-- Footer -->
+    {% include 'core/components/footer.html' %}
+
+    <!-- Bouton "Retour en haut" -->
+    <button id="scroll-to-top" class="fixed bottom-8 right-8 p-3 bg-blue-600 text-white rounded-full shadow-lg hover:bg-blue-700 transition-all duration-300 opacity-0 invisible">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18" />
+        </svg>
+    </button>
+
+    <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
- 
+
+    <!-- Gestion du spinner -->
+    <script>
+        // Afficher le spinner pendant le chargement de la page
+        document.getElementById('loading-spinner').classList.remove('hidden');
+
+        // Masquer le spinner une fois la page chargée
+        window.addEventListener('load', () => {
+            document.getElementById('loading-spinner').classList.add('hidden');
+        });
+
+        // Afficher le spinner avant le rechargement de la page
+        window.addEventListener('beforeunload', () => {
+            document.getElementById('loading-spinner').classList.remove('hidden');
+        });
+
+        // Afficher le spinner lors de la navigation entre les pages
+        document.addEventListener('click', (e) => {
+            if (e.target.tagName === 'A' && !e.target.hasAttribute('download') && e.target.href && e.target.href.indexOf(window.location.origin) === 0) {
+                document.getElementById('loading-spinner').classList.remove('hidden');
+            }
+        });
+    </script>
+
+    <!-- Gestion du bouton "Retour en haut" -->
+    <script>
+        const scrollToTopButton = document.getElementById('scroll-to-top');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                scrollToTopButton.classList.remove('opacity-0', 'invisible');
+                scrollToTopButton.classList.add('opacity-100', 'visible');
+            } else {
+                scrollToTopButton.classList.remove('opacity-100', 'visible');
+                scrollToTopButton.classList.add('opacity-0', 'invisible');
+            }
+        });
+
+        scrollToTopButton.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    </script>
 </body>
 </html>
