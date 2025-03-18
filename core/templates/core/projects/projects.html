@@ -1,8 +1,130 @@
 {% extends 'core/base.html' %}
 
 {% block content %}
-<div class="bg-white p-6 rounded-lg shadow-lg">
-    <h2 class="text-3xl font-bold mb-4">Nos projets</h2>
-    <p class="text-gray-700">projets...</p>
-</div>
+<!-- Section NOS ACTIONS / PROJETS -->
+<section class="bg-white dark:bg-gray-900 bg-[url('https://flowbite.s3.amazonaws.com/docs/jumbotron/hero-pattern.svg')] dark:bg-[url('https://flowbite.s3.amazonaws.com/docs/jumbotron/hero-pattern-dark.svg')] py-16">
+    <div class="container mx-auto px-4">
+        <!-- Titre de la section -->
+        <h2 class="text-4xl font-bold text-center text-gray-900 dark:text-white mb-4">
+          Nos Actions
+        </h2>
+    
+        <!-- Description de la section -->
+        <p class="text-lg text-center text-gray-600 dark:text-gray-400 mb-8 max-w-2xl mx-auto">
+          SAVE ASBL intervient dans toute l'étendue de la République Démocratique du Congo, avec pour mission d'améliorer les conditions de vie des communautés vulnérables. Nos actions couvrent divers domaines, notamment la santé, l'éducation, l'agriculture et l'émancipation de la femme.
+        </p>
+    
+        <!-- Accordéon -->
+        <div id="accordion-actions" data-accordion="collapse">
+          <!-- Domaine 1 : Santé -->
+          <div>
+            <h3 id="accordion-collapse-heading-1">
+              <button type="button" class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-b-0 border-gray-200 rounded-t-xl focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 gap-3" data-accordion-target="#accordion-collapse-body-1" aria-expanded="true" aria-controls="accordion-collapse-body-1">
+                <div class="flex items-center gap-3">
+                  <img src="https://cdn-icons-png.flaticon.com/512/2069/2069751.png" alt="Santé" class="w-8 h-8" />
+                  <span>Santé</span>
+                </div>
+                <svg data-accordion-icon class="w-3 h-3 rotate-180 shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5 5 1 1 5"/>
+                </svg>
+              </button>
+            </h3>
+            <div id="accordion-collapse-body-1" class="hidden" aria-labelledby="accordion-collapse-heading-1">
+              <div class="p-5 border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-800">
+                <p class="mb-2 text-gray-500 dark:text-gray-400">
+                  SAVE ASBL défend et promeut les intérêts de la population dans le domaine de la santé. Nos actions incluent :
+                </p>
+                <ul class="list-disc pl-5 text-gray-500 dark:text-gray-400">
+                  <li>Création de centres hospitaliers.</li>
+                  <li>Mise à disposition de produits pharmaceutiques et de matériel médical.</li>
+                  <li>Lutte contre l'insalubrité publique pour un environnement sain.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+    
+          <!-- Domaine 2 : Éducation -->
+          <div>
+            <h3 id="accordion-collapse-heading-2">
+              <button type="button" class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-b-0 border-gray-200 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 gap-3" data-accordion-target="#accordion-collapse-body-2" aria-expanded="false" aria-controls="accordion-collapse-body-2">
+                <div class="flex items-center gap-3">
+                  <img src="https://cdn-icons-png.flaticon.com/512/201/201614.png" alt="Éducation" class="w-8 h-8" />
+                  <span>Éducation</span>
+                </div>
+                <svg data-accordion-icon class="w-3 h-3 rotate-180 shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5 5 1 1 5"/>
+                </svg>
+              </button>
+            </h3>
+            <div id="accordion-collapse-body-2" class="hidden" aria-labelledby="accordion-collapse-heading-2">
+              <div class="p-5 border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-800">
+                <p class="mb-2 text-gray-500 dark:text-gray-400">
+                  Nous luttons contre l'analphabétisme et soutenons l'éducation à travers :
+                </p>
+                <ul class="list-disc pl-5 text-gray-500 dark:text-gray-400">
+                  <li>Mise à disposition de fournitures scolaires et de matériel didactique.</li>
+                  <li>Construction et restauration d'écoles.</li>
+                  <li>Initiation aux logiciels de base et création de centres informatiques.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+    
+          <!-- Domaine 3 : Agriculture -->
+          <div>
+            <h3 id="accordion-collapse-heading-3">
+              <button type="button" class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-b-0 border-gray-200 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 gap-3" data-accordion-target="#accordion-collapse-body-3" aria-expanded="false" aria-controls="accordion-collapse-body-3">
+                <div class="flex items-center gap-3">
+                  <img src="https://cdn-icons-png.flaticon.com/512/2972/2972035.png" alt="Agriculture" class="w-8 h-8" />
+                  <span>Agriculture</span>
+                </div>
+                <svg data-accordion-icon class="w-3 h-3 rotate-180 shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5 5 1 1 5"/>
+                </svg>
+              </button>
+            </h3>
+            <div id="accordion-collapse-body-3" class="hidden" aria-labelledby="accordion-collapse-heading-3">
+              <div class="p-5 border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-800">
+                <p class="mb-2 text-gray-500 dark:text-gray-400">
+                  Nous soutenons l'agriculture et luttons contre la faim grâce à :
+                </p>
+                <ul class="list-disc pl-5 text-gray-500 dark:text-gray-400">
+                  <li>Promotion de pratiques modernes d'élevage et d'agriculture.</li>
+                  <li>Appui aux agriculteurs avec du matériel moderne.</li>
+                  <li>Aménagement de routes de desserte agricole.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+    
+          <!-- Domaine 4 : Émancipation de la femme -->
+          <div>
+            <h3 id="accordion-collapse-heading-4">
+              <button type="button" class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-gray-200 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 gap-3" data-accordion-target="#accordion-collapse-body-4" aria-expanded="false" aria-controls="accordion-collapse-body-4">
+                <div class="flex items-center gap-3">
+                  <img src="https://cdn-icons-png.flaticon.com/512/3342/3342137.png" alt="Émancipation de la femme" class="w-8 h-8" />
+                  <span>Émancipation de la femme</span>
+                </div>
+                <svg data-accordion-icon class="w-3 h-3 rotate-180 shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5 5 1 1 5"/>
+                </svg>
+              </button>
+            </h3>
+            <div id="accordion-collapse-body-4" class="hidden" aria-labelledby="accordion-collapse-heading-4">
+              <div class="p-5 border border-gray-200 dark:border-gray-700 dark:bg-gray-800">
+                <p class="mb-2 text-gray-500 dark:text-gray-400">
+                  Nous œuvrons pour l'émancipation de la femme et l'épanouissement de la famille à travers :
+                </p>
+                <ul class="list-disc pl-5 text-gray-500 dark:text-gray-400">
+                  <li>Sensibilisation aux droits de la femme et de la famille.</li>
+                  <li>Apprentissage de métiers et création de coopératives.</li>
+                  <li>Promotion de l'égalité des genres.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+  </section>
+  
 {% endblock %}

@@ -1,3 +1,4 @@
+{% load compress %}
 {% load static %}
 
 <!DOCTYPE html>
@@ -7,10 +8,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SAVE ASBL</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-    <link href="{% static 'core/css/tailwind.css' %}" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    {% comment %} <link href="{% static 'core/css/tailwind.css' %}" rel="stylesheet"> {% endcomment %}
+    {% compress css %}
+    <link rel="stylesheet" href="{% static 'src/output.css' %}">
+    {% endcompress %}
+
     <script>
         // Vérifie la préférence du thème lors du chargement
         if (localStorage.getItem('color-theme') === 'dark' || 

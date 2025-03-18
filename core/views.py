@@ -17,3 +17,6 @@ def contact(request):
 
 def donate(request):
     return render(request, 'core/donates/donate.html')
+
+def blog(request):
+    return render(request, 'core/blog/blog.html')
