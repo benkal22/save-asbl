@@ -93,5 +93,18 @@
             });
         });
     </script>
+
+    <script>
+        // Calculer la hauteur de la navbar et appliquer un padding-top au contenu principal
+        document.addEventListener('DOMContentLoaded', () => {
+          const navbar = document.getElementById('navbar');
+          const mainContent = document.querySelector('main');
+      
+          if (navbar && mainContent) {
+            const navbarHeight = navbar.offsetHeight;
+            mainContent.style.paddingTop = `${navbarHeight}px`;
+          }
+        });
+      </script>
 </body>
 </html>

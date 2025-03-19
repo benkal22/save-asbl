@@ -1,0 +1,39 @@
+{% extends "core/base.html" %}
+
+{% load static %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <div class="max-w-2xl mx-auto bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+        <h1 class="text-2xl font-bold mb-6 text-gray-900 dark:text-white">Profil</h1>
+        
+        <div class="space-y-4">
+            <!-- Informations personnelles -->
+            <div class="border-b border-gray-200 dark:border-gray-700 pb-4">
+                <h2 class="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">Informations personnelles</h2>
+                <p class="text-gray-600 dark:text-gray-400">
+                    <span class="font-medium">Email:</span> {{ user.email }}
+                </p>
+                <p class="text-gray-600 dark:text-gray-400">
+                    <span class="font-medium">Nom:</span> {{ user.get_full_name|default:"Non renseigné" }}
+                </p>
+                <p class="text-gray-600 dark:text-gray-400">
+                    <span class="font-medium">Rôle:</span> {{ user.get_role_display|default:"Non défini" }}
+                </p>
+            </div>
+
+            <!-- Actions -->
+            <div class="flex flex-wrap gap-4">
+                <a href="{% url 'account_email' %}" 
+                   class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors">
+                    Modifier l'email
+                </a>
+                <a href="{% url 'account_change_password' %}" 
+                   class="px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700 transition-colors">
+                    Changer le mot de passe
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
