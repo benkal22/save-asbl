@@ -147,7 +147,7 @@ class Member(models.Model):
         ordering = ['-joined_at']
 
     def __str__(self):
-        return f"{self.user.get_full_name()} - {self.get_member_type_display()}"
+        return f"{self.get_full_name()} ({self.get_member_type_display()})"
 
     def get_full_name(self):
         return self.user.get_full_name()

@@ -110,15 +110,25 @@
                                     {{ method.display_name }}
                                 </h4>
                                 <p class="text-sm text-gray-500 dark:text-gray-400">
-                                    {% if method.number %}{{ method.number }}{% endif %}
-                                    {% if method.account %}{{ method.account }}{% endif %}
+                                    {% if method.number %}
+                                        {{ method.number }}
+                                    {% elif method.account %}
+                                        {{ method.account }}
+                                    {% endif %}
                                 </p>
                             </div>
                         </div>
-                        <button type="button" onclick="copyToClipboard('{{ method.number|default:method.account }}')"
-                                class="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300">
-                            {% trans "Copier" %}
-                        </button>
+                        {% if method.number %}
+                            <button type="button" onclick="copyToClipboard('{{ method.number }}')"
+                                    class="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300">
+                                {% trans "Copier" %}
+                            </button>
+                        {% elif method.account %}
+                            <button type="button" onclick="copyToClipboard('{{ method.account }}')"
+                                    class="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300">
+                                {% trans "Copier" %}
+                            </button>
+                        {% endif %}
                     </div>
                 </div>
                 {% endfor %}

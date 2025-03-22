@@ -1,0 +1,60 @@
+{% extends 'core/base.html' %}
+{% load i18n %}
+
+{% block content %}
+<section class="bg-gray-50 dark:bg-gray-900 py-12">
+    <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
+            <img class="w-full h-64 object-cover" 
+                 src="{{ activity.image.url }}" 
+                 alt="{{ activity.title }}">
+            <div class="p-8">
+                <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-4">
+                    {{ activity.title }}  {# Update variable name #}
+                </h1>
+                <span class="inline-flex items-center bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300 mb-4">
+                    {{ activity.get_status_display }}  {# Update variable name #}
+                </span>
+                <p class="text-gray-700 dark:text-gray-300 mb-6">
+                    {{ activity.description }}  {# Update variable name #}
+                </p>
+
+                <div class="mb-4">
+                    <h2 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+                        {% trans "Objectifs" %}
+                    </h2>
+                    <p class="text-gray-600 dark:text-gray-300">
+                        {{ activity.objectives }}  {# Update variable name #}
+                    </p>
+                </div>
+
+                <div class="mb-4">
+                    <h2 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+                        {% trans "Impact Attendu" %}
+                    </h2>
+                    <p class="text-gray-600 dark:text-gray-300">
+                        {{ activity.expected_impact }}  {# Update variable name #}
+                    </p>
+                </div>
+
+                <div>
+                    <h2 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+                        {% trans "Équipe de l'activité" %}  {# Update translation #}
+                    </h2>
+                    <ul class="list-disc list-inside text-gray-600 dark:text-gray-300">
+                        <li>
+                            {% trans "Chef de l'activité" %}: {{ activity.activity_manager.get_full_name }}  {# Update translation and variable name #}
+                        </li>
+                        <li>
+                            {% trans "Membres de l'équipe" %}:
+                            {% for member in activity.team_members.all %}  {# Update variable name #}
+                                {{ member.get_full_name }}{% if not forloop.last %}, {% endif %}
+                            {% endfor %}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

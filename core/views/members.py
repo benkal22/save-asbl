@@ -106,10 +106,32 @@ class MemberSubscriptionView(MemberRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         member = self.get_object()
+        
+        # Calcul du montant dû
+        months_due = 1
+        if member.membership_expiry and member.membership_expiry < now().date():
+            months_due = (now().date() - member.membership_expiry).days // 30 + 1
+
         context.update({
             'payment_history': member.get_payment_history(),
             'total_contributions': member.get_total_contributions(),
             'min_monthly_fee': member.MIN_MONTHLY_FEE,
+            'months_due': months_due,
+            'total_due': member.monthly_fee * months_due,
+            'payment_methods': [
+                {
+                    'name': 'mobile_money',
+                    'display_name': _('Mobile Money'),
+                    'number': '+243 123 456 789',
+                    'icon': 'mobile'
+                },
+                {
+                    'name': 'bank_transfer',
+                    'display_name': _('Virement bancaire'),
+                    'account': 'SAVE ASBL - BE12 3456 7890 1234',
+                    'icon': 'bank'
+                }
+            ]
         })
         return context
 
