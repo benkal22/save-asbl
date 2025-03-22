@@ -1,4 +1,3 @@
-
 from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
@@ -16,7 +15,7 @@ urlpatterns = [
     
     path('accounts/', include('allauth.urls')),  # Django Allauth
     
-    path("accounts/profile/", TemplateView.as_view(template_name="core/profile.html")),
+    path("accounts/profile/", TemplateView.as_view(template_name="core/profile.html"), name='account_profile'),
     path("i18n/", include("django.conf.urls.i18n")),
     
-] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

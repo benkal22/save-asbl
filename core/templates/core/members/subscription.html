@@ -1,0 +1,240 @@
+{% extends 'core/base.html' %}
+{% load i18n %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
+        <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-8">
+            {% trans "Ma cotisation" %}
+        </h1>
+
+        <!-- Statut de la cotisation -->
+        <div class="mb-8">
+            <div class="flex items-center justify-between p-4 rounded-lg 
+                {% if member.is_active_member %}
+                    bg-green-100 dark:bg-green-900
+                {% else %}
+                    bg-red-100 dark:bg-red-900
+                {% endif %}">
+                <div>
+                    <h2 class="text-lg font-semibold 
+                        {% if member.is_active_member %}
+                            text-green-800 dark:text-green-200
+                        {% else %}
+                            text-red-800 dark:text-red-200
+                        {% endif %}">
+                        {% if member.is_active_member %}
+                            {% trans "Cotisation à jour" %}
+                        {% else %}
+                            {% trans "Cotisation en retard" %}
+                        {% endif %}
+                    </h2>
+                    <p class="text-sm 
+                        {% if member.is_active_member %}
+                            text-green-700 dark:text-green-300
+                        {% else %}
+                            text-red-700 dark:text-red-300
+                        {% endif %}">
+                        {% if member.membership_expiry %}
+                            {% if member.is_active_member %}
+                                {% trans "Expire le" %} {{ member.membership_expiry|date:"d F Y" }}
+                            {% else %}
+                                {% trans "Expirée depuis le" %} {{ member.membership_expiry|date:"d F Y" }}
+                            {% endif %}
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Formulaire de paiement -->
+        <div class="space-y-8">
+            <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6">
+                <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-4">
+                    {% trans "Détails du paiement" %}
+                </h3>
+                
+                <div class="space-y-4">
+                    <div class="flex justify-between items-center">
+                        <span class="text-gray-600 dark:text-gray-400">
+                            {% trans "Cotisation mensuelle" %}
+                        </span>
+                        <span class="font-medium text-gray-900 dark:text-white">
+                            {{ member.monthly_fee|floatformat:2 }} USD
+                        </span>
+                    </div>
+                    
+                    <div class="flex justify-between items-center">
+                        <span class="text-gray-600 dark:text-gray-400">
+                            {% trans "Mois dûs" %}
+                        </span>
+                        <span class="font-medium text-gray-900 dark:text-white">
+                            {{ months_due }}
+                        </span>
+                    </div>
+                    
+                    <div class="flex justify-between items-center pt-4 border-t border-gray-200 dark:border-gray-600">
+                        <span class="text-lg font-medium text-gray-900 dark:text-white">
+                            {% trans "Total à payer" %}
+                        </span>
+                        <span class="text-lg font-bold text-gray-900 dark:text-white">
+                            {{ total_due|floatformat:2 }} USD
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Méthodes de paiement -->
+            <div class="space-y-4">
+                <h3 class="text-lg font-medium text-gray-900 dark:text-white">
+                    {% trans "Méthodes de paiement" %}
+                </h3>
+
+                {% for method in payment_methods %}
+                <div class="bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg p-4">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center space-x-3">
+                            <div class="flex-shrink-0">
+                                {% if method.icon == 'mobile' %}
+                                    <svg class="w-6 h-6 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                                    </svg>
+                                {% else %}
+                                    <svg class="w-6 h-6 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+                                    </svg>
+                                {% endif %}
+                            </div>
+                            <div>
+                                <h4 class="text-sm font-medium text-gray-900 dark:text-white">
+                                    {{ method.display_name }}
+                                </h4>
+                                <p class="text-sm text-gray-500 dark:text-gray-400">
+                                    {% if method.number %}{{ method.number }}{% endif %}
+                                    {% if method.account %}{{ method.account }}{% endif %}
+                                </p>
+                            </div>
+                        </div>
+                        <button type="button" onclick="copyToClipboard('{{ method.number|default:method.account }}')"
+                                class="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300">
+                            {% trans "Copier" %}
+                        </button>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <!-- Formulaire d'envoi du justificatif -->
+            <form method="post" enctype="multipart/form-data" class="space-y-6">
+                {% csrf_token %}
+                
+                <div>
+                    <label for="months" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                        {% trans "Nombre de mois" %}
+                    </label>
+                    <select name="months" id="months" 
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                        {% for i in "123456789101112"|make_list %}
+                            <option value="{{ forloop.counter }}" {% if forloop.counter == months_due %}selected{% endif %}>
+                                {{ forloop.counter }} {% trans "mois" %}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div>
+                    <label for="payment_proof" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                        {% trans "Justificatif de paiement" %}
+                    </label>
+                    <input type="file" name="payment_proof" id="payment_proof" 
+                           accept=".pdf,.jpg,.jpeg,.png"
+                           class="mt-1 block w-full text-sm text-gray-900 file:mr-4 file:py-2 file:px-4
+                                  file:rounded-md file:border-0 file:text-sm file:font-semibold
+                                  file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
+                    <p class="mt-2 text-sm text-gray-500">
+                        {% trans "Formats acceptés : PDF, JPG, PNG" %}
+                    </p>
+                </div>
+
+                <div class="flex justify-end">
+                    <button type="submit" name="renew"
+                            class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg
+                                   hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                        {% trans "Soumettre le paiement" %}
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Historique des paiements -->
+        <div class="mt-12">
+            <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-4">
+                {% trans "Historique des paiements" %}
+            </h3>
+            <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 rounded-lg">
+                <table class="min-w-full divide-y divide-gray-300">
+                    <thead class="bg-gray-50 dark:bg-gray-700">
+                        <tr>
+                            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 dark:text-white">
+                                {% trans "Date" %}
+                            </th>
+                            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 dark:text-white">
+                                {% trans "Montant" %}
+                            </th>
+                            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 dark:text-white">
+                                {% trans "Période" %}
+                            </th>
+                            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 dark:text-white">
+                                {% trans "Statut" %}
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200 bg-white dark:bg-gray-800">
+                        {% for payment in payment_history %}
+                        <tr>
+                            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 dark:text-gray-400">
+                                {{ payment.payment_date|date:"d/m/Y" }}
+                            </td>
+                            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 dark:text-gray-400">
+                                {{ payment.amount|floatformat:2 }} USD
+                            </td>
+                            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 dark:text-gray-400">
+                                {{ payment.period_start|date:"d/m/Y" }} - {{ payment.period_end|date:"d/m/Y" }}
+                            </td>
+                            <td class="whitespace-nowrap px-3 py-4 text-sm">
+                                <span class="inline-flex rounded-full px-2 text-xs font-semibold leading-5
+                                    {% if payment.status == 'validated' %}bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300
+                                    {% elif payment.status == 'rejected' %}bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300
+                                    {% else %}bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300{% endif %}">
+                                    {{ payment.get_status_display }}
+                                </span>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="4" class="px-3 py-4 text-sm text-gray-500 dark:text-gray-400 text-center">
+                                {% trans "Aucun paiement enregistré" %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function copyToClipboard(text) {
+    navigator.clipboard.writeText(text).then(() => {
+        // Feedback visuel
+        const el = event.target;
+        const originalText = el.textContent;
+        el.textContent = '{% trans "Copié !" %}';
+        setTimeout(() => {
+            el.textContent = originalText;
+        }, 2000);
+    });
+}
+</script>
+{% endblock %}

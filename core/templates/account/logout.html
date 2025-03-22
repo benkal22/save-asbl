@@ -1,0 +1,28 @@
+{% extends "core/base.html" %}
+{% load i18n %}
+{% load allauth account %}
+
+{% block head_title %}
+    {% trans "Déconnexion" %}
+{% endblock head_title %}
+
+{% block content %}
+<div class="max-w-md mx-auto my-10 p-6 bg-white dark:bg-gray-800 rounded-lg shadow-lg">
+    <h1 class="text-2xl font-bold text-gray-900 dark:text-white text-center mb-4">{% trans "Déconnexion" %}</h1>
+
+    <p class="text-sm text-gray-600 dark:text-gray-300 text-center mb-6">
+        {% trans "Êtes-vous sûr(e) de vouloir vous déconnecter ?" %}
+    </p>
+
+    <form method="post" action="{% url 'account_logout' %}">
+        {% csrf_token %}
+        {% if redirect_field_value %}
+            <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
+        {% endif %}
+        <div class="flex justify-center space-x-4">
+            <button type="submit" class="px-4 py-2 bg-red-600 text-white font-semibold rounded-lg hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500">{% trans "Se déconnecter" %}</button>
+            <a href="{% url 'index' %}" class="px-4 py-2 bg-gray-300 dark:bg-gray-600 text-gray-700 dark:text-gray-300 font-semibold rounded-lg hover:bg-gray-400 dark:hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-500 dark:focus:ring-gray-400">{% trans "Annuler" %}</a>
+        </div>
+    </form>
+</div>
+{% endblock content %}

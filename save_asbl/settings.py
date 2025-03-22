@@ -63,8 +63,10 @@ ROOT_URLCONF = 'save_asbl.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        # 'DIRS': [],
-        'DIRS': [os.path.join(BASE_DIR, 'core/templates')],
+        'DIRS': [
+            BASE_DIR / 'core' / 'templates',
+            BASE_DIR / 'templates',
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -87,6 +89,25 @@ AUTHENTICATION_BACKENDS = [
     'allauth.account.auth_backends.AuthenticationBackend',
     
 ]
+
+# Allauth configuration
+ACCOUNT_USER_MODEL_USERNAME_FIELD = None  # Tells allauth that we don't use usernames
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_USERNAME_REQUIRED = False  # Disables username field completely
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_EMAIL_VERIFICATION = 'optional'  # Change to 'mandatory' in production
+ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_EMAIL_SUBJECT_PREFIX = '[SAVE ASBL] '
+
+# Add this after the other ACCOUNT_* settings
+ACCOUNT_FORMS = {
+    'signup': 'core.forms.CustomSignupForm',
+}
+
+# Login/Logout settings
+LOGIN_URL = 'account_login'
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
@@ -116,7 +137,7 @@ STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 ]
 
-# Custom user modelS
+# Custom User Model
 AUTH_USER_MODEL = 'core.CustomUser'
 
 # Password validation
@@ -172,4 +193,36 @@ SOCIALACCOUNT_PROVIDERS = {
             'key': ''
         }
     }
+}
+
+SITE_ID = 1
+LOGIN_REDIRECT_URL = '/'
+ACCOUNT_LOGOUT_REDIRECT_URL = '/'
+ACCOUNT_AUTHENTICATION_METHOD = 'email'  # Ou 'username_email'
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_SESSION_REMEMBER = True
+
+# Remove or comment out these deprecated settings
+# ACCOUNT_LOGIN_METHODS = {'email'}
+# ACCOUNT_SIGNUP_FIELDS = ['email*', 'password1*', 'password2*']
+
+# Email settings for development
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_HOST = 'localhost'
+EMAIL_PORT = 25
+EMAIL_USE_TLS = False
+EMAIL_HOST_USER = ''
+EMAIL_HOST_PASSWORD = ''
+DEFAULT_FROM_EMAIL = 'noreply@saveasbl.org'
+
+# Messages settings
+from django.contrib.messages import constants as messages
+
+MESSAGE_TAGS = {
+    messages.DEBUG: 'bg-gray-100 dark:bg-gray-800',
+    messages.INFO: 'bg-blue-100 dark:bg-blue-800',
+    messages.SUCCESS: 'bg-green-100 dark:bg-green-800',
+    messages.WARNING: 'bg-yellow-100 dark:bg-yellow-800',
+    messages.ERROR: 'bg-red-100 dark:bg-red-800',
 }

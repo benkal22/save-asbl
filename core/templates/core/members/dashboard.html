@@ -1,0 +1,95 @@
+{% extends 'core/base.html' %}
+{% load i18n %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- En-tête du tableau de bord -->
+    <div class="mb-8 bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
+        <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+            {% trans "Tableau de bord" %}
+        </h1>
+        <p class="text-sm text-gray-600 dark:text-gray-400">
+            {% blocktrans with name=user.get_full_name|default:user.email %}
+            Bienvenue, {{ name }}
+            {% endblocktrans %}
+        </p>
+    </div>
+
+    <!-- Cartes d'informations -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <!-- Statut d'adhésion -->
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+                    {% trans "Statut d'adhésion" %}
+                </h3>
+                <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium
+                    {% if is_active %}
+                        bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300
+                    {% else %}
+                        bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300
+                    {% endif %}">
+                    {{ member.get_status_display }}
+                </span>
+            </div>
+            {% if member.membership_expiry %}
+            <div class="text-sm text-gray-600 dark:text-gray-400">
+                <p>{% trans "Expire le" %} {{ member.membership_expiry|date:"d F Y" }}</p>
+                {% if days_left <= 30 %}
+                    <p class="mt-2 text-red-600 dark:text-red-400">
+                        {% blocktrans %}
+                        Expire dans {{ days_left }} jours
+                        {% endblocktrans %}
+                    </p>
+                {% endif %}
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Type de membre -->
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
+            <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+                {% trans "Type de membre" %}
+            </h3>
+            <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300">
+                {{ member.get_member_type_display }}
+            </span>
+        </div>
+
+        <!-- Documents -->
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
+            <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+                {% trans "Documents" %}
+            </h3>
+            <div class="text-sm text-gray-600 dark:text-gray-400">
+                <p>{{ documents_count }} {% trans "documents téléchargés" %}</p>
+                <a href="{% url 'member_documents' %}" class="mt-4 inline-flex items-center text-blue-600 dark:text-blue-400 hover:underline">
+                    {% trans "Gérer mes documents" %}
+                    <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Actions rapides -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
+            <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+                {% trans "Actions rapides" %}
+            </h3>
+            <div class="space-y-4">
+                <a href="{% url 'member_profile' %}" class="inline-flex items-center justify-center w-full px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700">
+                    {% trans "Mettre à jour mon profil" %}
+                </a>
+                {% if member.member_type == 'active' %}
+                <a href="{% url 'member_subscription' %}" class="inline-flex items-center justify-center w-full px-4 py-2 text-sm font-medium text-blue-600 bg-transparent border border-blue-600 rounded-lg hover:bg-blue-50 dark:text-blue-400 dark:hover:bg-blue-900">
+                    {% trans "Gérer ma cotisation" %}
+                </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

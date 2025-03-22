@@ -1,0 +1,83 @@
+{% extends 'core/base.html' %}
+{% load i18n %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
+        <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-8">
+            {% trans "Mes documents" %}
+        </h1>
+
+        <!-- Liste des documents -->
+        <div class="space-y-6">
+            {% for document in documents %}
+            <div class="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                <div class="flex items-center space-x-4">
+                    <div class="p-2 bg-blue-100 dark:bg-blue-900 rounded-lg">
+                        <svg class="w-6 h-6 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="text-sm font-medium text-gray-900 dark:text-white">
+                            {{ document.name }}
+                        </h3>
+                        {% if document.uploaded_at %}
+                        <p class="text-xs text-gray-500 dark:text-gray-400">
+                            {% trans "Téléchargé le" %} {{ document.uploaded_at|date:"d F Y" }}
+                        </p>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="flex items-center space-x-2">
+                    {% if document.file %}
+                    <a href="{{ document.file.url }}" target="_blank" 
+                       class="px-3 py-1 text-sm text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300">
+                        {% trans "Voir" %}
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+            {% empty %}
+            <div class="text-center py-8">
+                <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 13h6m-3-3v6m5 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+                <h3 class="mt-2 text-sm font-medium text-gray-900 dark:text-white">
+                    {% trans "Aucun document" %}
+                </h3>
+                <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                    {% trans "Commencez par télécharger vos documents." %}
+                </p>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Formulaire d'upload -->
+        <div class="mt-8 pt-8 border-t border-gray-200 dark:border-gray-600">
+            <h2 class="text-lg font-medium text-gray-900 dark:text-white mb-4">
+                {% trans "Ajouter un document" %}
+            </h2>
+            <form method="post" enctype="multipart/form-data" class="space-y-4">
+                {% csrf_token %}
+                <div>
+                    <label for="identity_document" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                        {% trans "Document d'identité" %}
+                    </label>
+                    <input type="file" name="identity_document" id="identity_document"
+                           accept=".pdf,.jpg,.jpeg,.png"
+                           class="mt-1 block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400">
+                    <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">
+                        {% trans "Formats acceptés : PDF, JPG, PNG (max. 5MB)" %}
+                    </p>
+                </div>
+                <div class="flex justify-end">
+                    <button type="submit" class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                        {% trans "Télécharger" %}
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
